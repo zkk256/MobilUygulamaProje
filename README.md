@@ -1,1 +1,3 @@
 # WebProgramlamaProje
+2025-2026 GÜZ DÖNEMİ
+WEB PROGRAMLAMA DERSİ PROJE ÖDEVİ
