@@ -1,3 +1,3 @@
-# WebProgramlamaProje
+# MobilUygulamaProje
 2025-2026 GÜZ DÖNEMİ
-WEB PROGRAMLAMA DERSİ PROJE ÖDEVİ
+MOBİL UYGULAMA DERSİ PROJE ÖDEVİ
