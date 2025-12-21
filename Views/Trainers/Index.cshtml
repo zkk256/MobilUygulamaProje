@@ -1,0 +1,57 @@
+﻿@model List<WebProjesi.Models.Trainer>
+@using WebProjesi.Models
+
+<h1>Antrenörler</h1>
+
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Yeni Antrenör Ekle</a>
+    </p>
+}
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Ad Soyad</th>
+            <th>Hizmetler</th>
+            <th>Hakkında</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var t in Model)
+        {
+            var serviceNames = t.TrainerServices?
+            .Where(x => x.Service != null)
+            .Select(x => x.Service!.Name)
+            .ToList() ?? new List<string>();
+
+            <tr>
+                <td>@t.FullName</td>
+
+                <td>
+                    @if (serviceNames.Count == 0)
+                    {
+                        <span class="text-muted">-</span>
+                    }
+                    else
+                    {
+                        @string.Join(", ", serviceNames)
+                    }
+                </td>
+
+                <td>@t.Bio</td>
+
+                <td>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@t.Id">Düzenle</a>
+                        <span> | </span>
+                        <a asp-action="Delete" asp-route-id="@t.Id">Sil</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

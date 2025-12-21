@@ -1,0 +1,44 @@
+﻿@model WebProjesi.Models.TrainerAvailability
+
+@{
+    ViewData["Title"] = "Çalışma Saati Düzenle";
+}
+
+<h1>Çalışma Saati Düzenle</h1>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label class="form-label">Antrenör</label>
+        <select asp-for="TrainerId" class="form-select" asp-items="ViewBag.Trainers"></select>
+        <span asp-validation-for="TrainerId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Gün</label>
+        <select asp-for="DayOfWeek" class="form-select" asp-items="ViewBag.Days"></select>
+        <span asp-validation-for="DayOfWeek" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Başlangıç</label>
+        <input asp-for="StartTime" type="time" class="form-control" step="60" />
+        <span asp-validation-for="StartTime" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Bitiş</label>
+        <input asp-for="EndTime" type="time" class="form-control" step="60" />
+        <span asp-validation-for="EndTime" class="text-danger"></span>
+    </div>
+
+    <div class="text-danger">@Html.ValidationSummary()</div>
+
+    <button type="submit" class="btn btn-success">Kaydet</button>
+    <a asp-action="Index" class="btn btn-secondary">Geri</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,33 @@
+﻿@model WebProjesi.Models.TrainerAvailability
+
+@{
+    ViewData["Title"] = "Sil";
+    string[] TR_DAYS = new[] { "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar" };
+    var dayText = (Model.DayOfWeek >= 0 && Model.DayOfWeek < TR_DAYS.Length) ? TR_DAYS[Model.DayOfWeek] : "(Gün bilinmiyor)";
+}
+
+<h1>Sil</h1>
+
+<div class="alert alert-warning">
+    Bu çalışma saatini silmek istediğine emin misin?
+</div>
+
+<dl class="row">
+    <dt class="col-sm-3">Antrenör</dt>
+    <dd class="col-sm-9">@Model.Trainer?.FullName</dd>
+
+    <dt class="col-sm-3">Gün</dt>
+    <dd class="col-sm-9">@dayText</dd>
+
+    <dt class="col-sm-3">Başlangıç</dt>
+    <dd class="col-sm-9">@Model.StartTime.ToString(@"hh\:mm")</dd>
+
+    <dt class="col-sm-3">Bitiş</dt>
+    <dd class="col-sm-9">@Model.EndTime.ToString(@"hh\:mm")</dd>
+</dl>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Evet, Sil</button>
+    <a asp-action="Index" class="btn btn-secondary">Vazgeç</a>
+</form>

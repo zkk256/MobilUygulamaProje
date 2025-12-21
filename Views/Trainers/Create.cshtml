@@ -1,0 +1,51 @@
+﻿@model WebProjesi.Models.TrainerCreateEditVm
+@using WebProjesi.Models
+
+<h1>Yeni Antrenör</h1>
+
+<form asp-action="Create" method="post">
+    <div class="mb-2">
+        <label asp-for="FullName" class="form-label"></label>
+        <input asp-for="FullName" class="form-control" />
+        <span asp-validation-for="FullName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-2">
+        <label asp-for="Bio" class="form-label"></label>
+        <textarea asp-for="Bio" class="form-control"></textarea>
+        <span asp-validation-for="Bio" class="text-danger"></span>
+    </div>
+
+    <div class="mb-2">
+        <label class="form-label">Hizmetler (çoklu seçim)</label>
+
+        @{
+            var services = ViewBag.AllServices as List<Service> ?? new List<Service>();
+        }
+
+        @if (services.Count == 0)
+        {
+            <div class="text-muted">Önce Hizmetler sayfasından hizmet ekleyin.</div>
+        }
+        else
+        {
+            @foreach (var s in services)
+            {
+                <div class="form-check">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           name="SelectedServiceIds"
+                           value="@s.Id" />
+                    <label class="form-check-label">@s.Name</label>
+                </div>
+            }
+        }
+    </div>
+
+    <button type="submit" class="btn btn-success">Kaydet</button>
+    <a asp-action="Index" class="btn btn-secondary">Geri</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

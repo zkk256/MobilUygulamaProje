@@ -1,0 +1,47 @@
+﻿@model List<WebProjesi.Models.Appointment>
+@using WebProjesi.Models
+
+<h1>Randevularım</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Yeni Randevu</a>
+</p>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Antrenör</th>
+            <th>Hizmet</th>
+            <th>Başlangıç</th>
+            <th>Bitiş</th>
+            <th>Durum</th>
+            <th>Ücret</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var a in Model)
+        {
+            <tr>
+                <td>@a.Trainer?.FullName</td>
+                <td>@a.Service?.Name</td>
+                <td>@a.StartDateTime</td>
+                <td>@a.EndDateTime</td>
+                <td>
+                    @{
+                        var trStatus = a.Status switch
+                        {
+                            AppointmentStatus.Pending => "Beklemede",
+                            AppointmentStatus.Approved => "Onaylandı",
+                            AppointmentStatus.Rejected => "Reddedildi",
+                            AppointmentStatus.Cancelled => "İptal Edildi",
+                            _ => a.Status.ToString()
+                        };
+                    }
+                    @trStatus
+                </td>
+
+                <td>@a.StoredPrice</td>
+            </tr>
+        }
+    </tbody>
+</table>

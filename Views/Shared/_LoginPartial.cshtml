@@ -1,0 +1,32 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using WebProjesi.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+
+    // Profil
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index">
+            @User.Identity?.Name
+        </a>
+    </li>
+
+    // Çıkış
+    <li class="nav-item">
+        <form class="d-inline" asp-area="Identity" asp-page="/Account/Logout" method="post">
+            <button type="submit" class="nav-link btn btn-link text-dark p-0">Çıkış</button>
+        </form>
+    </li>
+}
+else
+{
+    //Giriş yoksa
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Kayıt Ol</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Giriş</a>
+    </li>
+}

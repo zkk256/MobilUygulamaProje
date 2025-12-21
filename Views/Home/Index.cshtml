@@ -1,0 +1,98 @@
+﻿@{
+    ViewData["Title"] = "Ana Sayfa";
+}
+
+<!-- HERO -->
+<section class="rounded-4 border bg-dark text-white p-4 p-md-5 mb-4">
+    <div class="row align-items-center g-4">
+        <div class="col-lg-7">
+            <div class="badge bg-success mb-3">Spor Salonu</div>
+
+            <h1 class="display-5 fw-bold mb-3">Hedefine Ulaş: Daha Fit, Daha Güçlü, Daha Sağlıklı</h1>
+            <p class="lead mb-4 text-white-50">
+                Fitness, Yoga, Pilates ve kişisel antrenör randevuları.
+                Uygun saatini seç, antrenörünü belirle, randevunu oluştur.
+            </p>
+
+            <div class="d-flex flex-wrap gap-2">
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a class="btn btn-outline-light btn-lg" asp-controller="Appointments" asp-action="Index">
+                            Tüm Randevular (Admin)
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-success btn-lg" asp-controller="Appointments" asp-action="Create">
+                            Randevu Oluştur
+                        </a>
+                        <a class="btn btn-outline-light btn-lg" asp-controller="Appointments" asp-action="My">
+                            Randevularım
+                        </a>
+                    }
+                }
+                else
+                {
+                    <a class="btn btn-success btn-lg" asp-area="Identity" asp-page="/Account/Register">Üye Ol</a>
+                    <a class="btn btn-outline-light btn-lg" asp-area="Identity" asp-page="/Account/Login">Giriş Yap</a>
+                }
+            </div>
+        </div>
+    
+    </div>
+</section>
+
+<!-- HİZMETLER -->
+<section class="mb-5">
+    <div class="d-flex align-items-end justify-content-between mb-3">
+        <div>
+            <h2 class="h3 fw-bold mb-1">Hizmetler</h2>
+            <div class="text-muted">Süre ve ücrete göre seçeneklerini belirle.</div>
+        </div>
+        <a class="btn btn-sm btn-outline-secondary" asp-controller="Services" asp-action="Index">Hizmetleri Gör</a>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 shadow-sm rounded-4">
+                <div class="card-body">
+                    <div class="fw-bold">Fitness</div>
+                    <div class="text-muted small mb-3">Kas geliştirme • kondisyon</div>
+                    <div class="small">Her seviyeye uygun programlar.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 shadow-sm rounded-4">
+                <div class="card-body">
+                    <div class="fw-bold">Yoga</div>
+                    <div class="text-muted small mb-3">Esneklik • nefes</div>
+                    <div class="small">Denge, nefes ve mobilite.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 shadow-sm rounded-4">
+                <div class="card-body">
+                    <div class="fw-bold">Pilates</div>
+                    <div class="text-muted small mb-3">Core • duruş</div>
+                    <div class="small">Postür ve core güçlendirme.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 shadow-sm rounded-4">
+                <div class="card-body">
+                    <div class="fw-bold">Kişisel Antrenör</div>
+                    <div class="text-muted small mb-3">Kilo verme • hacim</div>
+                    <div class="small">Hedefe özel takip.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

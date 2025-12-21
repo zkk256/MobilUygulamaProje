@@ -1,0 +1,17 @@
+﻿@model WebProjesi.Models.Service
+
+<h1>Hizmeti Sil</h1>
+
+<p>Silmek istediğine emin misin?</p>
+
+<div class="mb-2">
+    <b>Ad:</b> @Model.Name <br />
+    <b>Süre:</b> @Model.DurationMinutes dk <br />
+    <b>Ücret:</b> @Model.Price
+</div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Evet, Sil</button>
+    <a asp-action="Index" class="btn btn-secondary">İptal</a>
+</form>

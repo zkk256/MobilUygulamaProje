@@ -1,0 +1,56 @@
+﻿@model WebProjesi.Models.TrainerCreateEditVm
+@using WebProjesi.Models
+
+<h1>Antrenör Düzenle</h1>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-2">
+        <label asp-for="FullName" class="form-label"></label>
+        <input asp-for="FullName" class="form-control" />
+        <span asp-validation-for="FullName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-2">
+        <label asp-for="Bio" class="form-label"></label>
+        <textarea asp-for="Bio" class="form-control"></textarea>
+        <span asp-validation-for="Bio" class="text-danger"></span>
+    </div>
+
+    <div class="mb-2">
+        <label class="form-label">Hizmetler (çoklu seçim)</label>
+
+        @{
+            var services = ViewBag.AllServices as List<Service> ?? new List<Service>();
+        }
+
+        @if (services.Count == 0)
+        {
+            <div class="text-muted">Hizmet bulunamadı.</div>
+        }
+        else
+        {
+            @foreach (var s in services)
+            {
+                var isChecked = Model.SelectedServiceIds.Contains(s.Id);
+
+                <div class="form-check">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           name="SelectedServiceIds"
+                           value="@s.Id"
+                           @(isChecked ? "checked" : "") />
+                    <label class="form-check-label">@s.Name</label>
+                </div>
+            }
+        }
+    </div>
+
+    <button type="submit" class="btn btn-success">Güncelle</button>
+    <a asp-action="Index" class="btn btn-secondary">Geri</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

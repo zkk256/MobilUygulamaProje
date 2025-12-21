@@ -1,0 +1,16 @@
+﻿@model WebProjesi.Models.Trainer
+
+<h1>Antrenörü Sil</h1>
+
+<p>Silmek istediğine emin misin?</p>
+
+<div class="mb-2">
+    <b>Ad Soyad:</b> @Model.FullName <br />
+    <b>Bio:</b> @Model.Bio
+</div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Evet, Sil</button>
+    <a asp-action="Index" class="btn btn-secondary">İptal</a>
+</form>

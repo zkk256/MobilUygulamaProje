@@ -1,0 +1,42 @@
+﻿@model List<WebProjesi.Models.Service>
+
+<h1>Hizmetler</h1>
+
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Yeni Hizmet Ekle</a>
+    </p>
+}
+
+
+
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Ad</th>
+            <th>Süre (dk)</th>
+            <th>Ücret</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var s in Model)
+        {
+            <tr>
+                <td>@s.Name</td>
+                <td>@s.DurationMinutes</td>
+                <td>@s.Price</td>
+                <td>
+
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@s.Id">Düzenle</a>
+                        <a asp-action="Delete" asp-route-id="@s.Id">Sil</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,108 @@
+﻿@model WebProjesi.Controllers.AppointmentCreateVm
+
+<h1>Randevu Oluştur</h1>
+
+<form asp-action="Create" method="post">
+    <div class="mb-2">
+        <label class="form-label">Hizmet</label>
+        <select asp-for="ServiceId" class="form-select" asp-items="ViewBag.Services" id="serviceId"></select>
+        <span asp-validation-for="ServiceId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-2">
+        <label asp-for="Date" class="form-label">Tarih</label>
+        <input asp-for="Date" type="date" class="form-control" id="dateInput" />
+        <span asp-validation-for="Date" class="text-danger"></span>
+    </div>
+
+    <div class="mb-2">
+        <label asp-for="Time" class="form-label">Saat</label>
+        <input asp-for="Time" type="time" class="form-control" id="timeInput" />
+        <span asp-validation-for="Time" class="text-danger"></span>
+    </div>
+
+    <div class="mb-2">
+        <button type="button" class="btn btn-outline-primary" id="btnFetch">
+            Uygun Antrenörleri Getir
+        </button>
+        <span id="fetchInfo" class="ms-2"></span>
+    </div>
+
+    <div class="mb-2">
+        <label class="form-label">Antrenör</label>
+        <select asp-for="TrainerId" class="form-select" asp-items="ViewBag.Trainers" id="trainerSelect"></select>
+        <span asp-validation-for="TrainerId" class="text-danger"></span>
+    </div>
+
+    <div class="text-danger">
+        @Html.ValidationSummary()
+    </div>
+
+    <button type="submit" class="btn btn-success">Randevu Oluştur</button>
+    <a asp-action="Index" class="btn btn-secondary">Geri</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        // API: /api/trainers/available?date=YYYY-MM-DD&time=HH:mm&serviceId=1
+        async function fetchAvailableTrainers() {
+            const serviceId = document.getElementById("serviceId").value;
+            const date = document.getElementById("dateInput").value;   // YYYY-MM-DD
+            const time = document.getElementById("timeInput").value;   // HH:mm
+            const info = document.getElementById("fetchInfo");
+            const trainerSelect = document.getElementById("trainerSelect");
+
+            info.textContent = "";
+
+            if (!serviceId || !date || !time) {
+                info.textContent = "Lütfen hizmet, tarih ve saat seç.";
+                return;
+            }
+
+            const url = `/api/trainers/available?date=${encodeURIComponent(date)}&time=${encodeURIComponent(time)}&serviceId=${encodeURIComponent(serviceId)}`;
+
+            try {
+                info.textContent = "Yükleniyor...";
+                const res = await fetch(url);
+                if (!res.ok) {
+                    const text = await res.text();
+                    info.textContent = "API hata: " + text;
+                    return;
+                }
+
+                const data = await res.json();
+
+                trainerSelect.innerHTML = "";
+
+                if (!data || data.length === 0) {
+                    const opt = document.createElement("option");
+                    opt.value = "";
+                    opt.text = "Uygun antrenör bulunamadı";
+                    trainerSelect.appendChild(opt);
+                    info.textContent = "Uygun antrenör yok.";
+                    return;
+                }
+
+                const defaultOpt = document.createElement("option");
+                defaultOpt.value = "";
+                defaultOpt.text = "Seçiniz...";
+                trainerSelect.appendChild(defaultOpt);
+
+                for (const t of data) {
+                    const opt = document.createElement("option");
+                    opt.value = t.id;
+                    opt.text = t.fullName;
+                    trainerSelect.appendChild(opt);
+                }
+
+                info.textContent = `${data.length} uygun antrenör bulundu.`;
+            } catch (e) {
+                info.textContent = "İstek hatası: " + e;
+            }
+        }
+
+        document.getElementById("btnFetch").addEventListener("click", fetchAvailableTrainers);
+    </script>
+}

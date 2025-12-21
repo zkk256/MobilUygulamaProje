@@ -1,0 +1,41 @@
+﻿@model List<WebProjesi.Controllers.AppointmentAdminVm>
+@using WebProjesi.Models
+
+<h1>Tüm Randevular (Admin)</h1>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Üye (Email)</th>
+            <th>Antrenör</th>
+            <th>Hizmet</th>
+            <th>Başlangıç</th>
+            <th>Bitiş</th>
+            <th>Durum</th>
+            <th>Ücret</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var a in Model)
+        {
+            <tr>
+                <td>@a.UserEmail</td>
+                <td>@a.TrainerName</td>
+                <td>@a.ServiceName</td>
+                <td>@a.StartDateTime</td>
+                <td>@a.EndDateTime</td>
+                <td>@a.Status</td>
+                <td>@a.StoredPrice</td>
+                <td>
+                    @if (a.Status == AppointmentStatus.Pending)
+                    {
+                        <a asp-action="Approve" asp-route-id="@a.Id">Onayla</a>
+                        <span> | </span>
+                        <a asp-action="Reject" asp-route-id="@a.Id">Reddet</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
